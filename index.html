@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>资源下载</title>
+</head>
+<body>
+<!--elment.css cdn-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui@2.15.14/lib/theme-chalk/index.min.css">
+
+<script src="./cdn/vue.js"></script>
+<script src="./cdn/elment.js"></script>
+<style>
+    html {
+
+    }
+
+    .img {
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    .img img {
+        width: 100%;
+    }
+
+    span {
+        font-size: 0.8rem;
+        margin: 0.1rem;
+    }
+
+    .el-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .el-button {
+        width: 80%;
+    }
+
+    .mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0);
+        z-index: 10;
+    }
+
+    .mask img {
+        width: 100%;
+        flex-shrink: 0;
+    }
+    .el-dropdown{
+        background: rgba(59, 165, 252);
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        color: white;
+        padding: 0.2rem;
+    }
+</style>
+
+<div id="app">
+    <div class="mask" v-if="iswx">
+        <img src="./tip.png" alt="">
+    </div>
+    <el-row v-if="false" style="margin-top: 20px ; display: flex; flex-wrap: wrap">
+        <el-button type="primary">
+            <!--下载链接-->
+            <span @click="downloadFile('低压防爆电机样本.zip')">
+          点击下载低压防爆电机样本
+       </span>
+        </el-button>
+        <el-button type="primary">
+           <span @click="downloadFile('普通电机样本.zip')">
+          点击下载普通电机样本
+       </span>
+        </el-button>
+        <el-button type="primary">
+           <span @click="downloadFile('高压电机样本.zip')">
+          点击下载高压电机样本
+       </span>
+        </el-button>
+    </el-row>
+
+    <el-row style="margin-top: 20px ; display: flex; flex-wrap: wrap">
+        <el-dropdown>
+  <span class="el-dropdown-link">
+       点击下拉框查看低压防爆电机样本
+      <i class="el-icon-arrow-down el-icon--right"></i>
+  </span>
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(item , i) in dy"
+
+                  @click.native="gopdf('dy' , item.url)"
+                >
+                 {{item.name}}
+
+                </el-dropdown-item>
+            </el-dropdown-menu>
+            </el-dropdown>
+
+        <el-dropdown>
+  <span class="el-dropdown-link">
+       点击下拉框查看普通电机样本
+      <i class="el-icon-arrow-down el-icon--right"></i>
+  </span>
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                        v-for="(item , i) in pt"
+
+                        @click.native="gopdf('pt' , item.url)"
+                >
+                    {{item.name}}
+
+                </el-dropdown-item>
+            </el-dropdown-menu>
+        </el-dropdown>
+
+        <el-dropdown>
+  <span class="el-dropdown-link">
+       点击下拉框查看高压电机样本
+      <i class="el-icon-arrow-down el-icon--right"></i>
+  </span>
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                        v-for="(item , i) in gy"
+
+                        @click.native="gopdf('gy' , item.url)"
+                >
+                    {{item.name}}
+
+                </el-dropdown-item>
+            </el-dropdown-menu>
+        </el-dropdown>
+    </el-row>
+
+
+    <div class="img">
+        <img src="img.png" alt="">
+    </div>
+    <h3 style="text-align: center">
+        关于我们
+    </h3>
+    <div>
+        <p>
+            {{msg}}
+        </p>
+    </div>
+
+</div>
+
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            iswx: false,
+            msg: '我公司代理销售卧龙电气南阳防爆集团股份有限公司生产的全系列电机及附属产品，正品保证，价格优惠\n' +
+                '业务人员电话：13937770193' ,
+            dy:[
+                {
+                    name:'（淘汰）YB3-63～560系列隔爆型三相异步电动机样本0AP.138.0139b' ,
+                    url:'dy1.pdf'
+                } ,
+                {
+                    name:'YBBP系列低压隔爆型变频调速三相异步电动机（机座号80～500）产品样本0AP.138.0090c',
+                    url:'dy2.pdf'
+                },
+                {
+                    name:'YBFBX80～355系列复合防爆型三相异步电动机0AP.138.0197b',
+                    url:'dy3.pdf'
+                }
+                ,
+                {
+                    name:'YBK3系列煤矿井下用隔爆型三相异步电动机产品样本  0AP.138.0283',
+                    url:'dy4.pdf'
+                } ,
+                {
+                    name:'YBX3系列高效率隔爆型三相异步电动机（机座号80～400）产品样本GB18613-2020 三级能耗效',
+                    url:'dy5.pdf'
+                },
+                {
+                    name:'YBX4-80～400系列高效率隔爆型三相异步电动机GB18613-2020 二级能耗效',
+                    url:'dy6.pdf'
+                },
+                {
+                    name:'YBX5系列超高效率隔爆型三相异步电动机GB18613-2020 一级能耗效',
+                    url:'dy7.pdf'
+                },
+                {
+                    name:'YFB3-80～355系列粉尘防爆型三相异步电动机样本0AP.138.059e',
+                    url:'dy8.pdf'
+                }
+            ] ,
+            pt:[
+                {
+                    name:'YE3系列高效率三相异步电动机（机座号80～400）GB18613-2020 三级能耗效' ,
+                    url:'pt1.pdf'
+                },
+                {
+                    name:'YE4高效率三相异步电动机产品样本GB18613-2020 二级能耗效' ,
+                    url:'pt2.pdf'
+                }
+                ,
+                {
+                    name:'YE5新样本CNE GB18613-2020 一级能耗效' ,
+                    url:'pt3.pdf'
+                }
+                  ,
+                {
+                    name:'YP系列变频调速三相异步电动机（机座号80～450' ,
+                    url:'pt4.pdf'
+                }
+                ,
+
+
+            ],
+            gy:[
+                {
+                    name:'03 YKK、YKS、Y 710-1120 高压三相异步电动机产品样本0AP.138.0188a' ,
+                    url:'gy1.pdf'
+                },
+                {
+                    name:'04 YXKK、YXKS710-1120 高压三相异步电动机产品样本0AP.138.0237' ,
+                    url:'gy2.pdf'
+                }
+                ,
+                {
+                    name:'YB（H560-900）隔爆型三相异步电动机产品样本0AP.138.0097f' ,
+                    url:'gy3.pdf'
+                }
+                ,
+                {
+                    name:'YB2(H355～560)高压隔爆型三相异步电动机产品样本0AP.138.0109c' ,
+                    url:'gy4.pdf'
+                }
+                ,
+                {
+                    name:'YB3-315～560 系列(全新一代)高压高效隔爆型三相异步电动机' ,
+                    url:'gy5.pdf'
+                }  ,
+                {
+                    name:'YBBP（H355～560） 高压隔爆型变频调速三相异步电动机产品样本0AP.138.0133c' ,
+                    url:'gy6.pdf'
+                }
+                ,
+                {
+                    name:'YBX3（H355-560）高压高效率隔爆型三相异步电动机产品样本0AP.138.0140b' ,
+                    url:'gy7.pdf'
+                },
+                {
+                    name:'附件1：YBXKK500～710系列（全新一代）高压高效隔爆型三相异步电动机产品样本0AP 138 0286 -WL_LD_01_YBXKK_202005_CN_Ver1.0-_20200618_' ,
+                    url:'gy8.pdf'
+                }
+            ]
+        },
+        mounted() {
+
+            // var ua = navigator.userAgent.toLowerCase();
+            // if (ua.match(/MicroMessenger/i) == "micromessenger") {
+            //     this.iswx = true;
+            // } else {
+            //     this.iswx = false;
+            // }
+
+        },
+        methods: {
+            // downloadFile(fileName) {
+            //     // 创建一个隐藏的链接元素
+            //     const link = document.createElement('a');
+            //
+            //     // 设置资源路径和下载文件名
+            //     link.href = `./${fileName}`; // 资源的路径
+            //     link.download = fileName; // 下载时的文件名
+            //
+            //     // 隐藏链接
+            //     link.style.display = 'none';
+            //
+            //     // 将链接添加到文档中
+            //     document.body.appendChild(link);
+            //
+            //     // 模拟点击链接以触发下载
+            //     link.click();
+            //
+            //     // 下载后移除链接
+            //     document.body.removeChild(link);
+            // },
+           gopdf(folder ,url) {
+               location.href= 'pdf.html?folder='+folder+'&url='+url
+           },
+
+
+
+            async downloadFile(fileName) {
+                try {
+                    const response = await fetch(`./${fileName}`);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok.');
+                    }
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = fileName;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                } catch (error) {
+                    console.error('There has been a problem with your fetch operation:', error);
+                }
+            },
+        }
+    })
+
+</script>
+
+<script>
+
+    <!--    检测当前是否是浏览器打开 如果不是则提示在浏览器打开-->
+    if (typeof window.chrome === 'undefined' && typeof process === 'object' && typeof process.versions === 'object' && typeof process.versions.node !== 'undefined') {
+        alert('请使用浏览器打开本页面');
+    }
+
+</script>
+</body>
+</html>
